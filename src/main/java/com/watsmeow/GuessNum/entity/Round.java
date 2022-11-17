@@ -1,4 +1,4 @@
-package com.watsmeow.GuessNum.model;
+package com.watsmeow.GuessNum.entity;
 
 import java.time.LocalDateTime;
 

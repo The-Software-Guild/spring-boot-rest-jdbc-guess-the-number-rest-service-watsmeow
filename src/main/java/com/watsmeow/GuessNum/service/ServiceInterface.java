@@ -1,5 +1,9 @@
 package com.watsmeow.GuessNum.service;
 
-public interface ServiceInterface {
+import com.watsmeow.GuessNum.entity.Game;
 
+import java.util.List;
+
+public interface ServiceInterface {
+    List<Game> listAllGames();
 }

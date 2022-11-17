@@ -1,5 +1,8 @@
 package com.watsmeow.GuessNum.dao;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class RoundDao implements RoundDaoInterface {
 
     public static void getRoundsByGameID(int gameID) {

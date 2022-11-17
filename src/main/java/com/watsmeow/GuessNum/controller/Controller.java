@@ -1,9 +1,27 @@
 package com.watsmeow.GuessNum.controller;
 
-import com.watsmeow.GuessNum.model.Round;
+import com.watsmeow.GuessNum.entity.Game;
+import com.watsmeow.GuessNum.entity.Round;
+import com.watsmeow.GuessNum.service.ServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
 public class Controller {
 
+    @Autowired
+    ServiceInterface service;
+
+
+    @GetMapping("/allGames")
+    public List<Game> listAllGames() {
+        return service.listAllGames();
+    }
 
     public static void beginGame(){
         //sends POST request
@@ -15,12 +33,6 @@ public class Controller {
         //sends POST request with number guess as JSON, JSON is serialized into object behind scenes
         //service layer calculates results of guess
         //returns Round object with results
-    }
-
-    public static void listAllGames() {
-        //sends GET request to retrieve list of all games in database
-        //returns list from the service layer, which calls the GameDao
-        //in progress games cannot display answer
     }
 
     public static void getGameByID(int gameID) {
