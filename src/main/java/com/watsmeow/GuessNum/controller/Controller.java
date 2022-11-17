@@ -4,7 +4,10 @@ import com.watsmeow.GuessNum.entity.Game;
 import com.watsmeow.GuessNum.entity.Round;
 import com.watsmeow.GuessNum.service.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +26,15 @@ public class Controller {
         return service.listAllGames();
     }
 
+    @GetMapping("/game/{gameID}")
+    public ResponseEntity<Game> getGameByID(@PathVariable int gameID) {
+        Game game = service.getGameByID(gameID);
+        if (game == null) {
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(game);
+    }
+
     public static void beginGame(){
         //sends POST request
         //returns an int = gameID from service layer
@@ -35,11 +47,6 @@ public class Controller {
         //returns Round object with results
     }
 
-    public static void getGameByID(int gameID) {
-        //GET to return game object
-        //takes in gameID
-        //returns game object from the service layer, which calls the GameDao
-    }
 
     public static void getRoundsByGameID(int gameID) {
         //GET to retrieve a list of all rounds for gameID sorted by time

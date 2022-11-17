@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ServiceInterface {
     List<Game> listAllGames();
+
+    Game getGameByID(int gameID);
 }

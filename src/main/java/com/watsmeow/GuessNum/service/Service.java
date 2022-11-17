@@ -22,10 +22,18 @@ public class Service implements ServiceInterface {
         List<Game> games = gameDao.listAllGames();
         for (Game game : games) {
             if (!game.getIsFinished()) {
-                game.setAnswer("Game status: In Progress");
+                game.setAnswer("Game is in Progress, Cannot Display Answer");
             }
         }
         return games;
+    }
+
+    public Game getGameByID(int gameID) {
+        Game game = gameDao.getGameByID(gameID);
+        if (game != null && !game.getIsFinished()) {
+            game.setAnswer("Game is in Progress, Cannot Display Answer");
+        }
+        return game;
     }
 
     public static void beginGame(){
@@ -40,11 +48,6 @@ public class Service implements ServiceInterface {
         //returns Round object with results
     }
 
-    public static void getGameByID(int gameID) {
-        //GET to return game object
-        //takes in gameID
-        //returns game object from the service layer, which calls the GameDao
-    }
 
     public static void getRoundsByGameID(int gameID) {
         //GET to retrieve a list of all rounds for gameID sorted by time

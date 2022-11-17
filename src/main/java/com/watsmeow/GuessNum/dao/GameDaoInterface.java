@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface GameDaoInterface {
     List<Game> listAllGames();
+
+    Game getGameByID(int gameID);
 }
