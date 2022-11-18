@@ -8,4 +8,6 @@ public interface ServiceInterface {
     List<Game> listAllGames();
 
     Game getGameByID(int gameID);
+
+    Game beginGame();
 }

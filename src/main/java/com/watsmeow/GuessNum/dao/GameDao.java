@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -33,10 +36,18 @@ public class GameDao implements GameDaoInterface {
         }
     }
 
-    public static void beginGame(){
-        //sends POST request
-        //returns an int = gameID from service layer
-        //annotations return code 201 CREATED
+    public Game beginGame(Game game){
+        final String sql = "INSERT INTO games (answer, isFinished) VALUES (?, ?);";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update((con -> {
+            PreparedStatement statement = con.prepareStatement(
+                    sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, game.getAnswer());
+            statement.setBoolean(2, game.getIsFinished());
+            return statement;
+        }), keyHolder);
+        game.setGameID(keyHolder.getKey().intValue());
+        return game;
     }
 
     public static void guessNumber(Round round) {

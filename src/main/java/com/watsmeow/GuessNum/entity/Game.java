@@ -23,4 +23,12 @@ public class Game {
     public boolean getIsFinished() {
         return isFinished;
     }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
 }

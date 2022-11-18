@@ -6,10 +6,7 @@ import com.watsmeow.GuessNum.service.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,10 +32,11 @@ public class Controller {
         return ResponseEntity.ok(game);
     }
 
-    public static void beginGame(){
-        //sends POST request
-        //returns an int = gameID from service layer
-        //annotations return code 201 CREATED
+    @PostMapping("/beginGame")
+    @ResponseStatus(HttpStatus.CREATED)
+    public int beginGame() {
+        Game returnedGame = service.beginGame();
+        return returnedGame.getGameID();
     }
 
     public static void guessNumber(Round round) {

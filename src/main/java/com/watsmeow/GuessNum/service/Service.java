@@ -8,6 +8,7 @@ import com.watsmeow.GuessNum.entity.Round;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Random;
 
 @org.springframework.stereotype.Service
 public class Service implements ServiceInterface {
@@ -36,10 +37,13 @@ public class Service implements ServiceInterface {
         return game;
     }
 
-    public static void beginGame(){
-        //sends POST request
-        //returns an int = gameID from service layer
-        //annotations return code 201 CREATED
+    public Game beginGame(){
+        Game game = new Game();
+        Random random = new Random();
+        String answer = String.format("%04d", random.nextInt(10000));
+        game.setAnswer(answer);
+        game.setIsFinished(false);
+        return gameDao.beginGame(game);
     }
 
     public static void guessNumber(Round round) {
