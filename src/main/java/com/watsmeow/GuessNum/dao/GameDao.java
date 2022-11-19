@@ -28,7 +28,7 @@ public class GameDao implements GameDaoInterface {
 
     @Override
     public Game getGameByID(int gameID) {
-        final String sql = "SELECT id, answer, isFinished FROM games WHERE id = ?;";
+        final String sql = "SELECT id, answer, isFinished FROM Games WHERE id = ?;";
         try {
             return jdbcTemplate.queryForObject(sql, new GameMapper(), gameID);
         } catch(EmptyResultDataAccessException e) {
@@ -37,7 +37,7 @@ public class GameDao implements GameDaoInterface {
     }
 
     public Game beginGame(Game game){
-        final String sql = "INSERT INTO games (answer, isFinished) VALUES (?, ?);";
+        final String sql = "INSERT INTO Games (answer, isFinished) VALUES (?, ?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update((con -> {
             PreparedStatement statement = con.prepareStatement(
@@ -48,6 +48,16 @@ public class GameDao implements GameDaoInterface {
         }), keyHolder);
         game.setGameID(keyHolder.getKey().intValue());
         return game;
+    }
+
+    public void updateGame(Game game) {
+        final String sql = "UPDATE Games SET isFinished = true WHERE gameID = ?";
+        jdbcTemplate.update((con -> {
+            PreparedStatement statement = con.prepareStatement(
+                    sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, game.getGameID());
+            return statement;
+        }));
     }
 
     public static void guessNumber(Round round) {

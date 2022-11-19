@@ -39,16 +39,13 @@ public class Controller {
         return returnedGame.getGameID();
     }
 
-    public static void guessNumber(Round round) {
-        //sends POST request with number guess as JSON, JSON is serialized into object behind scenes
-        //service layer calculates results of guess
-        //returns Round object with results
+    @PostMapping("/guess")
+    public Round guessNumber(Round round) {
+        return service.guessNumber(round);
     }
 
-
-    public static void getRoundsByGameID(int gameID) {
-        //GET to retrieve a list of all rounds for gameID sorted by time
-        //takes in
-        //returns list from service layer, which uses RoundsDao
+    @GetMapping("/rounds/{gameID}")
+    public List<Round> getRoundsByGameID(@PathVariable int gameID) {
+        return service.getRoundsByGameID(gameID);
     }
 }

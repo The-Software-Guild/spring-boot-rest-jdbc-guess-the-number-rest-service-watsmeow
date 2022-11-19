@@ -10,4 +10,6 @@ public interface GameDaoInterface {
     Game getGameByID(int gameID);
 
     Game beginGame(Game game);
+
+    void updateGame(Game game);
 }
