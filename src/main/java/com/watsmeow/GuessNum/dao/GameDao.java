@@ -60,12 +60,6 @@ public class GameDao implements GameDaoInterface {
         }));
     }
 
-    public static void guessNumber(Round round) {
-        //sends POST request with number guess as JSON, JSON is serialized into object behind scenes
-        //service layer calculates results of guess
-        //returns Round object with results
-    }
-
     private static final class GameMapper implements RowMapper<Game> {
         public Game mapRow(ResultSet rs, int index) throws SQLException {
             Game game = new Game();
