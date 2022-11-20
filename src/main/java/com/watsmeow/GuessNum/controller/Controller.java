@@ -40,7 +40,7 @@ public class Controller {
     }
 
     @PostMapping("/guess")
-    public Round guessNumber(Round round) {
+    public Round guessNumber(@RequestBody Round round) {
         return service.guessNumber(round);
     }
 

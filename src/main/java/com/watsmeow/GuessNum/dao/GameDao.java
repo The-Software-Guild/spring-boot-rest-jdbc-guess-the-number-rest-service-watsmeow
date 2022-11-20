@@ -51,7 +51,7 @@ public class GameDao implements GameDaoInterface {
     }
 
     public void updateGame(Game game) {
-        final String sql = "UPDATE Games SET isFinished = true WHERE gameID = ?";
+        final String sql = "UPDATE Games SET isFinished = true WHERE id = ?";
         jdbcTemplate.update((con -> {
             PreparedStatement statement = con.prepareStatement(
                     sql, Statement.RETURN_GENERATED_KEYS);

@@ -50,7 +50,6 @@ public class Service implements ServiceInterface {
 
     public Round guessNumber(Round round) {
         int gameID = round.getGameID();
-        round.setGameID(gameID);
         String guess = round.getGuess();
         Game game = gameDao.getGameByID(gameID);
         String answer = game.getAnswer();
@@ -65,27 +64,24 @@ public class Service implements ServiceInterface {
         if (guess.length() != 4) {
             result = "e:0:p:0";
         }
-        if (guess == answer) {
+        if (guess.equals(answer)) {
             result = "e:4:p:0 - You Win!";
             game.setIsFinished(true);
             gameDao.updateGame(game);
         } else if (guess != answer) {
             Map<Character, Integer> indices = new HashMap<>();
             for (int i = 0; i < 4; i++) {
-                indices.put(answer.charAt(i), +1);
+                indices.put(answer.charAt(i), indices.getOrDefault(answer.charAt(i), 0) + 1);
                 if (guess.charAt(i) == answer.charAt(i)) {
                     exactMatch += 1;
-                    indices.get(answer.charAt(i), -1);
+                    indices.put(answer.charAt(i), indices.get(answer.charAt(i)) - 1);
                 }
             }
-            // it is a partial if it exists but is in the wrong position
             for (int i = 0; i < 4; i++) {
                 String currentIndex = String.valueOf(guess.charAt(i));
-                if (
-                        //the key exists and the value is greater than 0, it's a partial
-                ),  {
+                if (indices.containsKey(guess.charAt(i)) && indices.get(guess.charAt(i)) > 0) {
                     partialMatch += 1;
-                    indices.get(answer.charAt(i), -1);
+                    indices.put(guess.charAt(i), indices.get(guess.charAt(i)) - 1);
                 }
             }
             result = String.format("e:%s:p:%s",
@@ -94,7 +90,10 @@ public class Service implements ServiceInterface {
         }
         Calendar calendar = Calendar.getInstance();
         Timestamp timeOfGuess = new Timestamp(calendar.getTime().getTime());
-        return new Round(guess, timeOfGuess, result);
+        Round round = new Round(guess, timeOfGuess, result);
+        int gameID = game.getGameID();
+        round.setGameID(gameID);
+        return round;
     }
 
     public List<Round> getRoundsByGameID(int gameID) {

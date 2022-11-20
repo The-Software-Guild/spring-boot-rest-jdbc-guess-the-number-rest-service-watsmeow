@@ -21,7 +21,6 @@ public class RoundDao implements RoundDaoInterface {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     public Round createRound(Round round) {
         final String sql = "INSERT INTO Rounds (gameID, timeStamp, guess, guessResult) VALUES (?, ?, ?, ?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
