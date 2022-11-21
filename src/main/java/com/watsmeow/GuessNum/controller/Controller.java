@@ -17,12 +17,14 @@ public class Controller {
     @Autowired
     ServiceInterface service;
 
-
+    // GET request to get a list of all games, both complete and incomplete
     @GetMapping("/allGames")
     public List<Game> listAllGames() {
         return service.listAllGames();
     }
 
+
+    // GET request to get a specific game by ID
     @GetMapping("/game/{gameID}")
     public ResponseEntity<Game> getGameByID(@PathVariable int gameID) {
         Game game = service.getGameByID(gameID);
@@ -32,6 +34,7 @@ public class Controller {
         return ResponseEntity.ok(game);
     }
 
+    // POST request to begin a new game
     @PostMapping("/beginGame")
     @ResponseStatus(HttpStatus.CREATED)
     public int beginGame() {
@@ -39,11 +42,13 @@ public class Controller {
         return returnedGame.getGameID();
     }
 
+    // POST request to make a guess
     @PostMapping("/guess")
     public Round guessNumber(@RequestBody Round round) {
         return service.guessNumber(round);
     }
 
+    // GET request to get all rounds associated with a game ID
     @GetMapping("/rounds/{gameID}")
     public List<Round> getRoundsByGameID(@PathVariable int gameID) {
         return service.getRoundsByGameID(gameID);

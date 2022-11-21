@@ -21,6 +21,8 @@ public class RoundDao implements RoundDaoInterface {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    // Inserts a new round into the rounds table, which is associated with a game by game ID
     public Round createRound(Round round) {
         final String sql = "INSERT INTO Rounds (gameID, timeStamp, guess, guessResult) VALUES (?, ?, ?, ?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -37,6 +39,7 @@ public class RoundDao implements RoundDaoInterface {
         return round;
     }
 
+    // Gets all rounds associated with a specific game ID
     public List<Round> getRoundsByGameID(int gameID) {
         final String sql = "SELECT * FROM Rounds WHERE gameID = ?;";
         try {
@@ -47,6 +50,7 @@ public class RoundDao implements RoundDaoInterface {
         }
     }
 
+    // Bringing all rounds in
     private static final class RoundMapper implements RowMapper<Round> {
         public Round mapRow(ResultSet rs, int index) throws SQLException {
             Round round = new Round(rs.getString("guess"), rs.getTimestamp("timeStamp"),

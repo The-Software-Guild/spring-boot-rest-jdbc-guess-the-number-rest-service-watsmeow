@@ -21,11 +21,13 @@ public class GameDao implements GameDaoInterface {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    // Retrieves a list of all games from DB
     public List<Game> listAllGames() {
         final String sql = "SELECT * FROM games;";
         return jdbcTemplate.query(sql, new GameMapper());
     }
 
+    // Retrieves a single game from DB using the game ID
     @Override
     public Game getGameByID(int gameID) {
         final String sql = "SELECT id, answer, isFinished FROM Games WHERE id = ?;";
@@ -36,6 +38,7 @@ public class GameDao implements GameDaoInterface {
         }
     }
 
+    // Inserts a new game into the DB
     public Game beginGame(Game game){
         final String sql = "INSERT INTO Games (answer, isFinished) VALUES (?, ?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -50,6 +53,7 @@ public class GameDao implements GameDaoInterface {
         return game;
     }
 
+    // Updates the DB to mark a game as complete if it is complete
     public void updateGame(Game game) {
         final String sql = "UPDATE Games SET isFinished = true WHERE id = ?";
         jdbcTemplate.update((con -> {
@@ -60,6 +64,7 @@ public class GameDao implements GameDaoInterface {
         }));
     }
 
+    // Bringing the games in
     private static final class GameMapper implements RowMapper<Game> {
         public Game mapRow(ResultSet rs, int index) throws SQLException {
             Game game = new Game();

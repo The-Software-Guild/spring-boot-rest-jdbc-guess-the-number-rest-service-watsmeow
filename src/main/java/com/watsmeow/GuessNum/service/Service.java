@@ -6,11 +6,8 @@ import com.watsmeow.GuessNum.dao.RoundDaoInterface;
 import com.watsmeow.GuessNum.entity.Game;
 import com.watsmeow.GuessNum.entity.Round;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class Service implements ServiceInterface {
@@ -21,6 +18,7 @@ public class Service implements ServiceInterface {
     @Autowired
     RoundDaoInterface roundDao;
 
+    // Gets a list of all games, if game is incomplete ensures answer is not shared with user
     public List<Game> listAllGames() {
         List<Game> games = gameDao.listAllGames();
         for (Game game : games) {
@@ -31,6 +29,7 @@ public class Service implements ServiceInterface {
         return games;
     }
 
+    // Gets a specific game by id, if game is incomplete ensures answer is not shared with user
     public Game getGameByID(int gameID) {
         Game game = gameDao.getGameByID(gameID);
         if (game != null && !game.getIsFinished()) {
@@ -39,6 +38,7 @@ public class Service implements ServiceInterface {
         return game;
     }
 
+    // Inserts a new game into the DB, generates answer
     public Game beginGame(){
         Game game = new Game();
         Random random = new Random();
@@ -48,6 +48,7 @@ public class Service implements ServiceInterface {
         return gameDao.beginGame(game);
     }
 
+    // Inserts a new round into the DB, calls checkGuess, returns a round
     public Round guessNumber(Round round) {
         int gameID = round.getGameID();
         String guess = round.getGuess();
@@ -57,6 +58,7 @@ public class Service implements ServiceInterface {
         return roundDao.createRound(round);
     }
 
+    // Checks the guess against the answer and validates, updates game to finished if appropriate
     public Round checkGuess(String guess, String answer, Game game) {
         int partialMatch = 0;
         int exactMatch = 0;
@@ -96,6 +98,7 @@ public class Service implements ServiceInterface {
         return round;
     }
 
+    // Lists all rounds associated with a specific game ID
     public List<Round> getRoundsByGameID(int gameID) {
         return roundDao.getRoundsByGameID(gameID);
     }

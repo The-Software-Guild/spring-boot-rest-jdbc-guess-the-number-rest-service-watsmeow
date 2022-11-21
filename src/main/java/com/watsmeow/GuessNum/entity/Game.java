@@ -1,5 +1,7 @@
 package com.watsmeow.GuessNum.entity;
 
+
+// Game entity
 public class Game {
 
     private int gameID;
