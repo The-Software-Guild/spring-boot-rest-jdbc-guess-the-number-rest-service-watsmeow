@@ -27,26 +27,6 @@ public class RoundDaoTests extends TestCase {
     GameDao gameDao;
 
 
-//    @org.junit.jupiter.api.BeforeAll
-//    public static void SetUpClass() {
-//
-//    }
-//
-//    @org.junit.jupiter.api.AfterAll
-//    public static void tearDownClass() {
-//
-//    }
-//
-//    @org.junit.jupiter.api.BeforeEach
-//    public void setUp()  {
-//
-//    }
-//
-//    @org.junit.jupiter.api.AfterEach
-//    public void tearDown() {
-//
-//    }
-
     @Test
     public void testCreateRound() {
         Game game = new Game();
